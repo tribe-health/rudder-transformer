@@ -7,13 +7,18 @@ const mapping = JSON.parse(
 const Message = require("../message");
 
 const eventNameMap = {
-  clicked: "Email Link Clicked",
-  opened: "Email Opened",
-  bounced: "Email Bounced",
+  drafted: "Email Drafted",
+  attempted: "Email Attempted",
+  sent: "Email Sent",
   delivered: "Email Delivered",
-  spammed: "Email Marked as Spam",
+  opened: "Email Opened",
+  clicked: "Email Link Clicked",
+  converted: "Email Converted",
   unsubscribed: "Email Unsubscribed",
-  sent: "Email Sent"
+  bounced: "Email Bounced",
+  dropped: "Email Dropped",
+  spammed: "Email Marked as Spam",
+  failed: "Email Send Failed"
 };
 
 function process(event) {

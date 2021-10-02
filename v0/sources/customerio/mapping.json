@@ -1,4 +1,5 @@
 {
+  "event_id": "properties.event_id",
   "data.action_id": "properties.action_id",
   "data.broadcast_id": "properties.broadcast_id",
   "data.campaign_id": "properties.campaign_id",
@@ -12,9 +13,13 @@
   "data.link_id": "properties.link.id",
   "data.newsletter_id": "properties.newsletter_id",
   "data.journey_id": "properties.journey_id",
+  "data.parent_action_id": "properties.parent_action_id",
   "data.subject": "properties.email_subject",
   "data.failure_message": "properties.reason",
   "data.email_address": "context.traits.email",
   "data.recipient": "context.traits.email",
-  "data.customer_id": "userId"
+  "data.identifiers.email": "context.traits.email",
+  "data.customer_id": "userId",
+  "data.identifiers.id": "userId",
+  "data.identifiers.cio_id": "context.traits.cio_id"
 }

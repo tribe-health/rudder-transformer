@@ -1,4 +1,6 @@
 const { readdirSync } = require("fs");
+const path = require("path");
+const fs = require("fs");
 
 const compareJSON = (obj1, obj2) => {
   const ret = {};
@@ -10,6 +12,43 @@ const compareJSON = (obj1, obj2) => {
   return ret;
 };
 
+/**
+ *
+ * @param {*} integration - Name of the integration
+ * @param {*} type - Type of integration ("source", "destination")
+ * @returns
+ */
+const getJSONData = (integration, type = "destination") => {
+  if (type == "source") type = "source_";
+  else if (type === "destination") type = "";
+
+  const inputDataFile = fs.readFileSync(
+    path.resolve(__dirname, `./data/${integration}_${type}input.json`)
+  );
+  const outputDataFile = fs.readFileSync(
+    path.resolve(__dirname, `./data/${integration}_${type}output.json`)
+  );
+
+  const inputData = JSON.parse(inputDataFile);
+  const expectedData = JSON.parse(outputDataFile);
+
+  return { inputData, expectedData };
+};
+
+/**
+ *
+ * @param {*} integration - Name of the integration
+ * @param {*} type - Type of integration ("source", "destination")
+ * @param {*} version - Transformer version
+ * @returns
+ */
+const getTransformer = (integration, type = "destination", version = "v0") => {
+  if (type == "source") type = "sources";
+  else if (type === "destination") type = "destinations";
+
+  return require(`../${version}/${type}/${integration}/transform`);
+};
+
 const getDirectories = source =>
   readdirSync(source, { withFileTypes: true })
     .filter(dirent => dirent.isDirectory())
@@ -17,5 +56,7 @@ const getDirectories = source =>
 
 module.exports = {
   compareJSON,
-  getDirectories
+  getDirectories,
+  getJSONData,
+  getTransformer
 };

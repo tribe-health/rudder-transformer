@@ -1,0 +1,273 @@
+[
+  {
+    "context": {
+      "library": { "name": "unknown", "version": "unknown" },
+      "integration": { "name": "Customer.io" },
+      "traits": { "email": "test@example.com", "cio_id": "d9c106000001" }
+    },
+    "integrations": { "Customer.io": false },
+    "properties": {
+      "action_id": 96,
+      "broadcast_id": 2,
+      "delivery_id": "ZAIAAVTJVG0QcCok0-0ZKj6yiQ==",
+      "email_subject": "string",
+      "event_id": "01E4C4CT6YDC7Y5M7FE1GWWPQJ",
+      "journey_id": 5,
+      "parent_action_id": 1
+    },
+    "type": "track",
+    "event": "Email Drafted",
+    "userId": "42",
+    "originalTimestamp": "2021-02-11T17:04:49.000Z",
+    "sentAt": "2021-02-11T17:04:49.000Z"
+  },
+  {
+    "context": {
+      "library": { "name": "unknown", "version": "unknown" },
+      "integration": { "name": "Customer.io" },
+      "traits": { "email": "test@example.com", "cio_id": "d9c106000001" }
+    },
+    "integrations": { "Customer.io": false },
+    "properties": {
+      "action_id": 96,
+      "broadcast_id": 2,
+      "delivery_id": "ZAIAAVTJVG0QcCok0-0ZKj6yiQ==",
+      "event_id": "01E4C4CT6YDC7Y5M7FE1GWWPQJ",
+      "journey_id": 5,
+      "parent_action_id": 1,
+      "reason": "Something went wrong!"
+    },
+    "type": "track",
+    "event": "Email Attempted",
+    "userId": "42",
+    "originalTimestamp": "2021-02-11T17:04:49.000Z",
+    "sentAt": "2021-02-11T17:04:49.000Z"
+  },
+  {
+    "context": {
+      "library": { "name": "unknown", "version": "unknown" },
+      "integration": { "name": "Customer.io" },
+      "traits": { "email": "test@example.com", "cio_id": "d9c106000001" }
+    },
+    "integrations": { "Customer.io": false },
+    "properties": {
+      "action_id": 96,
+      "broadcast_id": 2,
+      "delivery_id": "ZAIAAVTJVG0QcCok0-0ZKj6yiQ==",
+      "email_subject": "string",
+      "event_id": "01E4C4CT6YDC7Y5M7FE1GWWPQJ",
+      "journey_id": 5,
+      "parent_action_id": 1
+    },
+    "type": "track",
+    "event": "Email Sent",
+    "userId": "42",
+    "originalTimestamp": "2021-02-11T17:04:49.000Z",
+    "sentAt": "2021-02-11T17:04:49.000Z"
+  },
+  {
+    "context": {
+      "library": { "name": "unknown", "version": "unknown" },
+      "integration": { "name": "Customer.io" },
+      "traits": { "email": "test@example.com", "cio_id": "d9c106000001" }
+    },
+    "integrations": { "Customer.io": false },
+    "properties": {
+      "action_id": 96,
+      "broadcast_id": 2,
+      "delivery_id": "ZAIAAVTJVG0QcCok0-0ZKj6yiQ==",
+      "email_subject": "string",
+      "event_id": "01E4C4CT6YDC7Y5M7FE1GWWPQJ",
+      "journey_id": 5,
+      "parent_action_id": 1
+    },
+    "type": "track",
+    "event": "Email Delivered",
+    "userId": "42",
+    "originalTimestamp": "2021-02-11T17:04:49.000Z",
+    "sentAt": "2021-02-11T17:04:49.000Z"
+  },
+  {
+    "context": {
+      "library": { "name": "unknown", "version": "unknown" },
+      "integration": { "name": "Customer.io" },
+      "traits": { "email": "test@example.com", "cio_id": "d9c106000001" }
+    },
+    "integrations": { "Customer.io": false },
+    "properties": {
+      "action_id": 96,
+      "broadcast_id": 2,
+      "delivery_id": "ZAIAAVTJVG0QcCok0-0ZKj6yiQ==",
+      "email_subject": "string",
+      "event_id": "01E4C4CT6YDC7Y5M7FE1GWWPQJ",
+      "journey_id": 5,
+      "parent_action_id": 1
+    },
+    "type": "track",
+    "event": "Email Opened",
+    "userId": "42",
+    "originalTimestamp": "2021-02-11T17:04:49.000Z",
+    "sentAt": "2021-02-11T17:04:49.000Z"
+  },
+  {
+    "context": {
+      "library": { "name": "unknown", "version": "unknown" },
+      "integration": { "name": "Customer.io" },
+      "traits": { "email": "test@example.com", "cio_id": "d9c106000001" }
+    },
+    "integrations": { "Customer.io": false },
+    "properties": {
+      "action_id": 96,
+      "broadcast_id": 2,
+      "delivery_id": "ZAIAAVTJVG0QcCok0-0ZKj6yiQ==",
+      "email_subject": "string",
+      "event_id": "01E4C4CT6YDC7Y5M7FE1GWWPQJ",
+      "journey_id": 5,
+      "parent_action_id": 1,
+      "link": {
+        "url": "https://www.customer.io/docs",
+        "id": 1
+      }
+    },
+    "type": "track",
+    "event": "Email Link Clicked",
+    "userId": "42",
+    "originalTimestamp": "2021-02-11T17:04:49.000Z",
+    "sentAt": "2021-02-11T17:04:49.000Z"
+  },
+  {
+    "context": {
+      "library": { "name": "unknown", "version": "unknown" },
+      "integration": { "name": "Customer.io" },
+      "traits": { "email": "test@example.com", "cio_id": "d9c106000001" }
+    },
+    "integrations": { "Customer.io": false },
+    "properties": {
+      "action_id": 96,
+      "broadcast_id": 2,
+      "delivery_id": "ZAIAAVTJVG0QcCok0-0ZKj6yiQ==",
+      "email_subject": "string",
+      "event_id": "01E4C4CT6YDC7Y5M7FE1GWWPQJ",
+      "journey_id": 5,
+      "parent_action_id": 1
+    },
+    "type": "track",
+    "event": "Email Converted",
+    "userId": "42",
+    "originalTimestamp": "2021-02-11T17:04:49.000Z",
+    "sentAt": "2021-02-11T17:04:49.000Z"
+  },
+  {
+    "context": {
+      "library": { "name": "unknown", "version": "unknown" },
+      "integration": { "name": "Customer.io" },
+      "traits": { "email": "test@example.com", "cio_id": "d9c106000001" }
+    },
+    "integrations": { "Customer.io": false },
+    "properties": {
+      "action_id": 96,
+      "broadcast_id": 2,
+      "delivery_id": "ZAIAAVTJVG0QcCok0-0ZKj6yiQ==",
+      "email_subject": "string",
+      "event_id": "01E4C4CT6YDC7Y5M7FE1GWWPQJ",
+      "journey_id": 5,
+      "parent_action_id": 1
+    },
+    "type": "track",
+    "event": "Email Unsubscribed",
+    "userId": "42",
+    "originalTimestamp": "2021-02-11T17:04:49.000Z",
+    "sentAt": "2021-02-11T17:04:49.000Z"
+  },
+  {
+    "context": {
+      "library": { "name": "unknown", "version": "unknown" },
+      "integration": { "name": "Customer.io" },
+      "traits": { "email": "test@example.com", "cio_id": "d9c106000001" }
+    },
+    "integrations": { "Customer.io": false },
+    "properties": {
+      "action_id": 96,
+      "broadcast_id": 2,
+      "delivery_id": "ZAIAAVTJVG0QcCok0-0ZKj6yiQ==",
+      "email_subject": "string",
+      "event_id": "01E4C4CT6YDC7Y5M7FE1GWWPQJ",
+      "journey_id": 5,
+      "parent_action_id": 1,
+      "reason": "Something went wrong!"
+    },
+    "type": "track",
+    "event": "Email Bounced",
+    "userId": "42",
+    "originalTimestamp": "2021-02-11T17:04:49.000Z",
+    "sentAt": "2021-02-11T17:04:49.000Z"
+  },
+  {
+    "context": {
+      "library": { "name": "unknown", "version": "unknown" },
+      "integration": { "name": "Customer.io" },
+      "traits": { "email": "test@example.com", "cio_id": "d9c106000001" }
+    },
+    "integrations": { "Customer.io": false },
+    "properties": {
+      "action_id": 96,
+      "broadcast_id": 2,
+      "delivery_id": "ZAIAAVTJVG0QcCok0-0ZKj6yiQ==",
+      "email_subject": "string",
+      "event_id": "01E4C4CT6YDC7Y5M7FE1GWWPQJ",
+      "journey_id": 5,
+      "parent_action_id": 1,
+      "reason": "Something went wrong!"
+    },
+    "type": "track",
+    "event": "Email Dropped",
+    "userId": "42",
+    "originalTimestamp": "2021-02-11T17:04:49.000Z",
+    "sentAt": "2021-02-11T17:04:49.000Z"
+  },
+  {
+    "context": {
+      "library": { "name": "unknown", "version": "unknown" },
+      "integration": { "name": "Customer.io" },
+      "traits": { "email": "test@example.com", "cio_id": "d9c106000001" }
+    },
+    "integrations": { "Customer.io": false },
+    "properties": {
+      "action_id": 96,
+      "broadcast_id": 2,
+      "delivery_id": "ZAIAAVTJVG0QcCok0-0ZKj6yiQ==",
+      "email_subject": "string",
+      "event_id": "01E4C4CT6YDC7Y5M7FE1GWWPQJ",
+      "journey_id": 5,
+      "parent_action_id": 1
+    },
+    "type": "track",
+    "event": "Email Marked as Spam",
+    "userId": "42",
+    "originalTimestamp": "2021-02-11T17:04:49.000Z",
+    "sentAt": "2021-02-11T17:04:49.000Z"
+  },
+  {
+    "context": {
+      "library": { "name": "unknown", "version": "unknown" },
+      "integration": { "name": "Customer.io" },
+      "traits": { "email": "test@example.com", "cio_id": "d9c106000001" }
+    },
+    "integrations": { "Customer.io": false },
+    "properties": {
+      "action_id": 96,
+      "broadcast_id": 2,
+      "delivery_id": "ZAIAAVTJVG0QcCok0-0ZKj6yiQ==",
+      "email_subject": "string",
+      "event_id": "01E4C4CT6YDC7Y5M7FE1GWWPQJ",
+      "journey_id": 5,
+      "parent_action_id": 1,
+      "reason": "Something went wrong!"
+    },
+    "type": "track",
+    "event": "Email Send Failed",
+    "userId": "42",
+    "originalTimestamp": "2021-02-11T17:04:49.000Z",
+    "sentAt": "2021-02-11T17:04:49.000Z"
+  }
+]

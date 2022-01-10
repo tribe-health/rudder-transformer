@@ -19,7 +19,7 @@ const networkHandlerFactory = require("./adapters/networkHandlerFactory");
 require("dotenv").config();
 const eventValidator = require("./util/eventValidation");
 const { prometheusRegistry } = require("./middleware");
-const { createIvmSimple } = require("./util/ivmFactory");
+const { createIvmSimple, createIvmStub } = require("./util/ivmFactory");
 
 const versions = ["v0"];
 const API_VERSION = "2";
@@ -790,6 +790,13 @@ router.get("/metrics", async ctx => {
 
 router.get('/createIvmSimple', async ctx => {
   const { isolate, context, clearIvm } = await createIvmSimple();
+  console.log('Reference count of isolate ', isolate.referenceCount);
+  clearIvm();
+  ctx.status = 200;
+})
+
+router.get('/createIvmStub', async ctx => {
+  const { isolate, context, clearIvm } = await createIvmStub();
   console.log('Reference count of isolate ', isolate.referenceCount);
   clearIvm();
   ctx.status = 200;

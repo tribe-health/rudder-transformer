@@ -24,6 +24,17 @@ async function createIvmSimple() {
   }
 }
 
+async function createIvmStub() {
+  const isolate = { referenceCount: null, dispose: () => { } };
+  const context = { release: () => { } };
+  return {
+    isolate, context, clearIvm: () => {
+      context.release();
+      isolate.dispose();
+    }
+  }
+}
+
 async function createIvm(code, libraryVersionIds, versionId) {
   const createIvmStartTime = new Date();
   const libraries = await Promise.all(
@@ -348,3 +359,4 @@ async function getFactory(code, libraryVersionIds, versionId) {
 
 exports.getFactory = getFactory;
 exports.createIvmSimple = createIvmSimple;
+exports.createIvmStub = createIvmStub;

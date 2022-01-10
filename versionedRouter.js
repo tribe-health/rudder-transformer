@@ -19,6 +19,7 @@ const networkHandlerFactory = require("./adapters/networkHandlerFactory");
 require("dotenv").config();
 const eventValidator = require("./util/eventValidation");
 const { prometheusRegistry } = require("./middleware");
+const { createIvmSimple } = require("./util/ivmFactory");
 
 const versions = ["v0"];
 const API_VERSION = "2";
@@ -246,8 +247,8 @@ if (startDestTransformer) {
 
         const metaTags =
           ctx.request.body &&
-          ctx.request.body.length &&
-          ctx.request.body[0].metadata
+            ctx.request.body.length &&
+            ctx.request.body[0].metadata
             ? getMetadata(ctx.request.body[0].metadata)
             : {};
         stats.timing("dest_transform_request_latency", startTime, {
@@ -270,8 +271,8 @@ if (startDestTransformer) {
 
         const metaTags =
           ctx.request.body &&
-          ctx.request.body.length &&
-          ctx.request.body[0].metadata
+            ctx.request.body.length &&
+            ctx.request.body[0].metadata
             ? getMetadata(ctx.request.body[0].metadata)
             : {};
         stats.timing("dest_transform_request_latency", startTime, {
@@ -786,6 +787,13 @@ router.post(`/deleteUsers`, async ctx => {
 router.get("/metrics", async ctx => {
   await metricsController(ctx);
 });
+
+router.get('/createIvmSimple', async ctx => {
+  const { isolate, context, clearIvm } = await createIvmSimple();
+  console.log('Reference count of isolate ', isolate.referenceCount);
+  clearIvm();
+  ctx.status = 200;
+})
 
 module.exports = {
   router,

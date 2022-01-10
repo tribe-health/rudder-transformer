@@ -9,8 +9,19 @@ const { parserForImport } = require("./parser");
 const isolateVmMem = 128;
 async function loadModule(isolateInternal, contextInternal, moduleCode) {
   const module = await isolateInternal.compileModule(moduleCode);
-  await module.instantiate(contextInternal, () => {});
+  await module.instantiate(contextInternal, () => { });
   return module;
+}
+
+async function createIvmSimple() {
+  const isolate = new ivm.Isolate({ memoryLimit: isolateVmMem });
+  const context = await isolate.createContext();
+  return {
+    isolate, context, clearIvm: () => {
+      context.release();
+      isolate.dispose();
+    }
+  }
 }
 
 async function createIvm(code, libraryVersionIds, versionId) {
@@ -168,7 +179,7 @@ async function createIvm(code, libraryVersionIds, versionId) {
 
         try {
           data.body = JSON.parse(data.body);
-        } catch (e) {}
+        } catch (e) { }
 
         stats.timing("fetchV2_call_duration", fetchStartTime, { versionId });
         resolve.applyIgnored(undefined, [
@@ -194,7 +205,7 @@ async function createIvm(code, libraryVersionIds, versionId) {
 
   const bootstrap = await isolate.compileScript(
     "new " +
-      `
+    `
     function() {
       // Grab a reference to the ivm module and delete it from global scope. Now this closure is the
       // only place in the context with a reference to the module. The 'ivm' module is very powerful
@@ -336,3 +347,4 @@ async function getFactory(code, libraryVersionIds, versionId) {
 }
 
 exports.getFactory = getFactory;
+exports.createIvmSimple = createIvmSimple;

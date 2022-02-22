@@ -43,14 +43,7 @@ function executeTransformationTest(dest, transformAt) {
             try {
               return transformer.process(inp)
             } catch (error) {
-              const errResp = {
-                error: error.message
-              };
-              console.log(error)
-              if (error.status) {
-                errResp.statusCode = error.status;
-              }
-              return errResp
+              return error.message
             }
           })
 	      } else {
@@ -60,7 +53,13 @@ function executeTransformationTest(dest, transformAt) {
         // TODO: execute the test from a util function exposed by CDK
 				// actualData = executeTranformationTest(dest);
 			}
-      expect(actualData).toEqual(expected);
+      actualData.map((actData, index) => {
+        if (expected[index].error) {
+          expect(actData).toEqual(expected[index].error);
+        } else {
+          expect(actData).toEqual(expected[index])
+        }
+      })
     });
   });
 }

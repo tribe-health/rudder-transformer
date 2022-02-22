@@ -49,4 +49,4 @@ const version = "v0";
 
 // });
 executeTransformationTest('af', 'processor')
-// executeTransformationTest('appsFlyer', 'router')
+executeTransformationTest('af', 'router')

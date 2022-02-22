@@ -35,7 +35,7 @@ function executeTransformationTest(dest, transformAt) {
   const testParams = formTestParams(dest, transformAt);
   const { iscdkDest, transformer, expected, input } = testParams;
   describe(`${dest} Tests`, () => {
-    it(`${dest} - ${transformAt} tests`, () => {
+    it(`${dest} - ${transformAt} tests`, async () => {
       let actualData = [];
 			if (!iscdkDest) {
 	      if (transformAt === 'processor') {
@@ -46,20 +46,22 @@ function executeTransformationTest(dest, transformAt) {
               return error.message
             }
           })
+          actualData.map((actData, index) => {
+            if (expected[index].error) {
+              expect(actData).toEqual(expected[index].error);
+            } else {
+              expect(actData).toEqual(expected[index])
+            }
+          })
 	      } else {
-	        actualData = transformer.processRouterDest(input)
+          actualData = await transformer.processRouterDest(input)
+          expect(actualData).toEqual(expected)
 	      }
 			} else {
         // TODO: execute the test from a util function exposed by CDK
 				// actualData = executeTranformationTest(dest);
 			}
-      actualData.map((actData, index) => {
-        if (expected[index].error) {
-          expect(actData).toEqual(expected[index].error);
-        } else {
-          expect(actData).toEqual(expected[index])
-        }
-      })
+      
     });
   });
 }

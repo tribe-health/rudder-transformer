@@ -39,23 +39,25 @@ function executeTransformationTest(dest, transformAt) {
       let actualData = [];
 			if (!iscdkDest) {
 	      if (transformAt === 'processor') {
-	        actualData = input.map(inp => {
-            try {
-              return transformer.process(inp)
-            } catch (error) {
-              return error.message
-            }
-          })
+	        actualData = await Promise.all(
+            input.map(async inp => {
+              try {
+                return await transformer.process(inp)
+              } catch (error) {
+                return error.message
+              }
+            })
+          );
           actualData.map((actData, index) => {
             if (expected[index].error) {
               expect(actData).toEqual(expected[index].error);
             } else {
               expect(actData).toEqual(expected[index])
             }
-          })
+          });
 	      } else {
-          actualData = await transformer.processRouterDest(input)
-          expect(actualData).toEqual(expected)
+          actualData = await transformer.processRouterDest(input);
+          expect(actualData).toEqual(expected);
 	      }
 			} else {
         // TODO: execute the test from a util function exposed by CDK

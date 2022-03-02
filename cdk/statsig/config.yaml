@@ -8,7 +8,10 @@ message:
     - group
   default:
     transformation:
+      mapperPath: "./mappings/default.yaml"
       spreadMessage: true
+      postMapper:
+        name: "dummyPostMapper"
       response:
         endpoint: "https://api.statsig.com/v1/webhooks/rudderstack"
         method: POST
@@ -17,3 +20,4 @@ message:
         headers:
           STATSIG-API-KEY: "{{ destConfig.secretKey }}"
           content-type: "application/json"
+        rudderContextUsage: "{{ rudderContext.someKey }}"

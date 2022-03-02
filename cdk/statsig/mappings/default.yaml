@@ -1,0 +1,103 @@
+- destKey: toString
+  sourceKeys: traits.toString
+  metadata:
+    type: toString
+  required: true
+- destKey: toNumber
+  sourceKeys: traits.toNumber
+  metadata:
+    type: toNumber
+- destKey: toFloat
+  sourceKeys: traits.toFloat
+  metadata:
+    type: toFloat
+- destKey: toInt
+  sourceKeys: properties.toInt
+  metadata:
+    type: toInt
+- destKey: domainUrl
+  sourceKeys: properties.domainUrl
+  metadata:
+    type: domainUrl
+- destKey: IsBoolean
+  sourceKeys: properties.IsBoolean
+  metadata:
+    type: IsBoolean
+- destKey: jsonStringify
+  sourceKeys: jsonStringify
+  metadata:
+    type: jsonStringify
+- destKey: flatJson
+  sourceKeys: flatJson
+  metadata:
+    type: flatJson
+- destKey: jsonStringifyOnFlatten
+  sourceKeys: jsonStringifyOnFlatten
+  metadata:
+    type: jsonStringifyOnFlatten
+- destKey: jsonStringifyOnObject
+  sourceKeys: jsonStringifyOnObject
+  metadata:
+    type: jsonStringifyOnObject
+- destKey: timestamp
+  sourceKeys: timestamp
+  metadata:
+    type: timestamp
+    typeFormat: DDMMYYYY
+- destKey: secondTimestamp
+  sourceKeys: secondTimestamp
+  metadata:
+    type: secondTimestamp
+- destKey: getOffsetInSec
+  sourceKeys: getOffsetInSec
+  metadata:
+    type: getOffsetInSec
+- destKey: numberForRevenue
+  sourceKeys: numberForRevenue
+  metadata:
+    type: numberForRevenue
+- destKey: getFbGenderVal
+  sourceKeys: getFbGenderVal
+  metadata:
+    type: getFbGenderVal
+- destKey: encodeURIComponent
+  sourceKeys: encodeURIComponent
+  metadata:
+    type: encodeURIComponent
+- destKey: template
+  sourceKeys: template
+  metadata:
+    defaultValue: Web-Page-Viewed
+    template: Web-Page-Viewed-{{value}}
+- destKey: excludes
+  sourceKeys: excludes
+  metadata:
+    excludes:
+    - testProperty
+    - abc
+- destKey: multiKeyMap
+  sourceKeys: multiKeyMap
+  metadata:
+    multikeyMap:
+    - sourceVal:
+      - m
+      - M
+      - Male
+      - male
+      destVal: M
+- destKey: hashToSha256
+  sourceKeys: hashToSha256
+  metadata:
+    type: hashToSha256
+- destKey: allowedKeyCheck
+  sourceKeys: allowedKeyCheck
+  metadata:
+    allowedKeyCheck:
+    - sourceVal:
+      - f
+      - F
+      - Female
+      - female
+- destKey: userIdInfo
+  sourceKeys: userIdOnly
+  sourceFromGenericMap: true

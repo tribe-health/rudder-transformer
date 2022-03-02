@@ -1,0 +1,117 @@
+{
+  "anonymousId": "8d872292709c6fbe",
+  "channel": "mobile",
+  "traits": {
+    "toString": 12,
+    "toNumber": "12",
+    "toFloat": "12.33"
+  },
+  "context": {
+    "app": {
+      "build": "1",
+      "name": "AMTestProject",
+      "namespace": "com.rudderstack.android.rudderstack.sampleAndroidApp",
+      "version": "1.0"
+    },
+    "device": {
+      "id": "8d872292709c6fbe",
+      "manufacturer": "Google",
+      "model": "AOSPonIAEmulator",
+      "name": "generic_x86_arm",
+      "type": "android"
+    },
+    "library": {
+      "name": "com.rudderstack.android.sdk.core",
+      "version": "1.0.2"
+    },
+    "locale": "en-US",
+    "network": {
+      "carrier": "Android",
+      "bluetooth": false,
+      "cellular": true,
+      "wifi": true
+    },
+    "os": {
+      "name": "Android",
+      "version": "9"
+    },
+    "screen": {
+      "density": 420,
+      "height": 1794,
+      "width": 1080
+    },
+    "timezone": "Asia/Kolkata",
+    "traits": {
+      "address": {
+        "city": "Kolkata",
+        "country": "India",
+        "postalcode": "700096",
+        "state": "West bengal",
+        "street": "Park Street"
+      },
+      "age": "30",
+      "anonymousId": "8d872292709c6fbe",
+      "birthday": "2020-05-26",
+      "createdat": "18th March 2020",
+      "description": "Premium User for 3 years",
+      "email": "identify@test.com",
+      "firstname": "John",
+      "userId": "sample_user_id",
+      "lastname": "Sparrow",
+      "name": "John Sparrow",
+      "id": "sample_user_id",
+      "phone": "9112340345",
+      "username": "john_sparrow"
+    },
+    "userAgent": "Dalvik/2.1.0 (Linux; U; Android 9; AOSP on IA Emulator Build/PSR1.180720.117)"
+  },
+  "event": "Product Clicked",
+  "integrations": {
+    "All": true
+  },
+  "properties": {
+    "toInt": "12",
+    "domainUrl": "https://github.com",
+    "IsBoolean": "true",
+    "revenue": "30",
+    "currency": "USD",
+    "quantity": "5",
+    "test_key_2": {
+      "test_child_key_1": "test_child_value_1"
+    },
+    "price": "58.0"
+  },
+  "originalTimestamp": "2020-05-25T18:37:10.917Z",
+  "type": "track",
+  "userId": "sample_user_id",
+  "jsonStringify": { "hello": "world" },
+  "flatJson": { "arr": { "vals": [1, 2, 3] } },
+  "jsonStringifyOnFlatten": {
+    "a": "text1",
+    "b": { "b1": "text2", "b2": "text3" }
+  },
+  "jsonStringifyOnObject": { "hello": "world" },
+  "timestamp": "2020-05-25T18:37:10.917Z",
+  "secondTimestamp": "2020-05-25T18:37:10.917Z",
+  "getOffsetInSec": "Asia/Tokyo",
+  "numberForRevenue": "$23.2367",
+  "getFbGenderVal": "FEMALE",
+  "encodeURIComponent": "jamesDoe@gmail.com",
+  "template": "test",
+  "excludes": {
+    "testProperty": "testProp",
+    "testProperty2": [
+      {
+        "abc": "abc",
+        "cde": ["1", "2", "3"]
+      },
+      {
+        "abc": "test",
+        "cde": ["a", "b", "c"]
+      }
+    ]
+  },
+  "multiKeyMap": "m",
+  "hashToSha256": "23",
+  "allowedKeyCheck": "f"
+}

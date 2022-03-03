@@ -35,7 +35,7 @@ function process(event) {
     fs.readFileSync(path.resolve(__dirname, "./mapping.json"))
   );
   const mappedPayload = constructPayload(message, mappingJson);
-  const spreadedMessage = { ...mappedPayload, ...message };
+  const spreadedMessage = { ...message, ...mappedPayload };
 
   const keys = ["delKey1", "delKey2"];
   keys.forEach(k => {
@@ -46,7 +46,7 @@ function process(event) {
   const { secretKey } = destination.Config;
 
   response.method = defaultPostRequestConfig.requestMethod;
-  response.body.JSON = message;
+  response.body.JSON = spreadedMessage;
   response.headers = {
     "content-type": "application/json",
     "STATSIG-API-KEY": secretKey

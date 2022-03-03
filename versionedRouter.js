@@ -105,7 +105,7 @@ async function handleDest(ctx, version, destination) {
         parsedEvent.request = { query: reqParams };
         parsedEvent = processDynamicConfig(parsedEvent);
         // let respEvents = await destHandler.process(parsedEvent);
-        let respEvents = Executor.execute(
+        let respEvents = await Executor.execute(
           event,
           ConfigFactory.getConfig(destination)
         );

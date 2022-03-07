@@ -20,5 +20,5 @@
     "PARDOT": true,
     "GOOGLE_ADWORDS_REMARKETING_LISTS": true
   },
-  "cdkDestinations": ["variance","autopilot","heap","userlist","lytics","kochava","statsig"]
+  "cdkDestinations": ["variance","autopilot","heap","userlist","lytics","kochava"]
 }

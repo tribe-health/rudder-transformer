@@ -16,7 +16,10 @@ const {
 const { processDynamicConfig } = require("./util/dynamicConfig");
 const { DestHandlerMap } = require("./constants/destinationCanonicalNames");
 const { userTransformHandler } = require("./routerUtils");
-const { TRANSFORMER_METRIC } = require("./v0/util/constant");
+const {
+  TRANSFORMER_METRIC,
+  CDK_DESTINAITON_SET
+} = require("./v0/util/constant");
 const networkHandlerFactory = require("./adapters/networkHandlerFactory");
 
 require("dotenv").config();
@@ -24,8 +27,7 @@ const eventValidator = require("./util/eventValidation");
 const { prometheusRegistry } = require("./middleware");
 
 const basePath = path.resolve(__dirname, "./cdk");
-// const factory = new RudderCDK.ConfigFactory(basePath, "production");
-ConfigFactory.init({ basePath, loggingMode: "dev" });
+ConfigFactory.init({ basePath, loggingMode: "production" });
 
 const versions = ["v0"];
 const API_VERSION = "2";
@@ -105,10 +107,16 @@ async function handleDest(ctx, version, destination) {
         parsedEvent.request = { query: reqParams };
         parsedEvent = processDynamicConfig(parsedEvent);
         // let respEvents = await destHandler.process(parsedEvent);
-        let respEvents = await Executor.execute(
-          event,
-          ConfigFactory.getConfig(destination)
-        );
+        let respEvents;
+        if (CDK_DESTINAITON_SET.has(destination)) {
+          respEvents = await Executor.execute(
+            event,
+            ConfigFactory.getConfig(destination)
+          );
+        } else {
+          respEvents = await destHandler.process(parsedEvent);
+        }
+        // TODO: Check for CDK destinations & only then use cdk execute
         if (respEvents) {
           if (!Array.isArray(respEvents)) {
             respEvents = [respEvents];
@@ -119,6 +127,7 @@ async function handleDest(ctx, version, destination) {
               if (ev.statusCode !== 400 && userId) {
                 userId = `${userId}`;
               }
+
               return {
                 output: { ...ev, userId },
                 metadata: event.metadata,

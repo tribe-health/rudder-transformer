@@ -1,3 +1,5 @@
+const { cdkDestinations } = require("../../features.json");
+
 const USER_LEAD_CACHE_TTL = process.env.MARKETO_LEAD_CACHE_TTL
   ? parseInt(process.env.MARKETO_LEAD_CACHE_TTL, 10)
   : 24 * 60 * 60;
@@ -22,7 +24,8 @@ const TRANSFORMER_METRIC = {
       META: {
         ABORTABLE: "abortable",
         RETRYABLE: "retryable",
-        THROTTLED: "throttled"
+        THROTTLED: "throttled",
+        SUCCESS: "success"
       }
     },
     TRANSFORMATION: {
@@ -39,13 +42,18 @@ const TRANSFORMER_METRIC = {
     },
     EXCEPTION: {
       SCOPE: "exception"
+    },
+    DEFAULT: {
+      SCOPE: "default"
     }
   }
 };
+const CDK_DESTINAITON_SET = new Set(cdkDestinations);
 
 module.exports = {
   API_CALL,
   AUTH_CACHE_TTL,
   TRANSFORMER_METRIC,
-  USER_LEAD_CACHE_TTL
+  USER_LEAD_CACHE_TTL,
+  CDK_DESTINAITON_SET
 };

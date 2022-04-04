@@ -4,7 +4,6 @@ const logger = require("./logger");
 require("dotenv").config();
 
 const { router } = require("./versionedRouter");
-const { testRouter } = require("./testRouter");
 const cluster = require("./util/cluster");
 const { addPrometheusMiddleware } = require("./middleware");
 
@@ -21,7 +20,6 @@ app.use(
 );
 
 app.use(router.routes()).use(router.allowedMethods());
-app.use(testRouter.routes()).use(testRouter.allowedMethods());
 
 if (clusterEnabled) {
   cluster.start(PORT, app);

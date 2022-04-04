@@ -113,6 +113,7 @@ async function userTransformHandlerV1(
     // Destroy the isolated vm resources created
     if (isAcquireTransformerIsolatedVMMode) {
       logger.debug(`Isolate VM being destroyed... `);
+      isolatevmFactory.context.release();
       isolatevmFactory.destroy(isolatevm);
       logger.debug(`Isolate VM destroyed... `);
     } else {

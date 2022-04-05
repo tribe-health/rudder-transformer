@@ -46,16 +46,21 @@ async function userTransformHandlerV1(
   libraryVersionIds,
   testMode = false
 ) {
+  logger.info("isolate created");
+  const isolate = new ivm.Isolate({ memoryLimit: 128 });
+  isolate.dispose();
+  logger.info("isolate destroyed");
+  return events;
   /*
  Transform VM aquire mode is
  on demand if env variable ON_DEMAND_ISOLATE_VM = true | True | TRUE,
  Pooled otherwise
 */
-  const isAcquireTransformerIsolatedVMMode =
-    testMode ||
-    (process.env.ON_DEMAND_ISOLATE_VM
-      ? process.env.ON_DEMAND_ISOLATE_VM.toLowerCase() === "true"
-      : false);
+  const isAcquireTransformerIsolatedVMMode = true;
+    // testMode ||
+    // (process.env.ON_DEMAND_ISOLATE_VM
+    //   ? process.env.ON_DEMAND_ISOLATE_VM.toLowerCase() === "true"
+    //   : false);
   if (userTransformation.versionId) {
     const metaTags = events.length && events[0].metadata ? getMetadata(events[0].metadata) : {};
     const tags = {
@@ -113,7 +118,7 @@ async function userTransformHandlerV1(
     // Destroy the isolated vm resources created
     if (isAcquireTransformerIsolatedVMMode) {
       logger.debug(`Isolate VM being destroyed... `);
-      isolatevmFactory.context.release();
+      isolatevm.context.release();
       isolatevmFactory.destroy(isolatevm);
       logger.debug(`Isolate VM destroyed... `);
     } else {

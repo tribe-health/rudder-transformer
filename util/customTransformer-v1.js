@@ -61,7 +61,12 @@ async function userTransformHandlerV1(
 
   // 2. run the code, and await the result
   const fnReference = await context.global.get("transformEvent");
-  const result = await fnReference.apply(undefined, [events]);
+  const sharedTransformationPayload = new ivm.ExternalCopy(events).copyInto({
+    transferIn: true
+  });
+  const result = await fnReference.apply(undefined, [
+    sharedTransformationPayload
+  ]);
 
   context.release();
   isolate.dispose();

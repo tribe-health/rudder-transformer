@@ -71,6 +71,7 @@ async function userTransformHandlerV1(
     sharedTransformationPayload
   ]);
 
+  script.release();
   // Releasing the ExternalCopy object
   eventExtCopy.release();
   // Releasing context

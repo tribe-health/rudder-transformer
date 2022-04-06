@@ -104,6 +104,7 @@ if (functionsEnabled()) {
               transformationVersionId,
               librariesVersionIDs
             );
+            console.log(JSON.stringify(destTransformedEvents));
             transformedEvents.push(
               ...destTransformedEvents.map(ev => {
                 if (ev.error) {

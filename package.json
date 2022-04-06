@@ -38,7 +38,7 @@
     "handlebars": "^4.7.7",
     "heapdump": "^0.3.15",
     "http-graceful-shutdown": "^3.0.2",
-    "isolated-vm": "^3.3.7",
+    "isolated-vm": "^4.3.6",
     "json-query": "^2.2.2",
     "jsontoxml": "^1.0.1",
     "koa": "^2.12.1",

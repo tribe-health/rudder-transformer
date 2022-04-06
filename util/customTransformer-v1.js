@@ -60,7 +60,7 @@ async function userTransformHandlerV1(
   await script.run(context);
 
   // 2. run the code, and await the result
-  const fnReference = await context.global.get("transformEvent");
+  const fnReference = await context.global.getSync("transformEvent");
   // Initializing the external copy variable
   const eventExtCopy = new ivm.ExternalCopy(events);
   // Copying into isolate
@@ -71,6 +71,7 @@ async function userTransformHandlerV1(
     sharedTransformationPayload
   ]);
 
+  // Release script
   script.release();
   // Releasing the ExternalCopy object
   eventExtCopy.release();

@@ -40,6 +40,8 @@ function calculateMsFromIvmTime(value) {
   return (value[0] + value[1] / 1e9) * 1000;
 }
 
+const codeWithWrapper = `export default function add(a, b) { return a + b; };"This is awesome!";`;
+
 // sample code
 const sampleCode = `
 function transformEvent(events) {
@@ -59,6 +61,14 @@ async function userTransformHandlerV1(
   const script = await isolate.compileScript(sampleCode);
   await script.run(context);
 
+  // module
+  const customScriptModule = await isolate.compileModule(`${codeWithWrapper}`);
+  await customScriptModule.instantiate(
+    context,
+    (specifier, referrer) => referrer
+  );
+  await customScriptModule.evaluate();
+
   // 2. run the code, and await the result
   const fnReference = await context.global.getSync("transformEvent");
   // Initializing the external copy variable
@@ -71,9 +81,11 @@ async function userTransformHandlerV1(
     sharedTransformationPayload
   ]);
 
-  // Release script
+  // Release Module
+  customScriptModule.release();
+  // // Release script
   script.release();
-  // Releasing the ExternalCopy object
+  // // Releasing the ExternalCopy object
   eventExtCopy.release();
   // Releasing context
   context.release();

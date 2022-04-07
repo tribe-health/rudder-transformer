@@ -1,4 +1,5 @@
 const ivm = require("isolated-vm");
+const { default: fetch } = require("node-fetch");
 const stats = require("./stats");
 
 const { getPool } = require("./ivmPool");
@@ -44,8 +45,31 @@ const codeWithWrapper = `export default function add(a, b) { return a + b; };"Th
 
 // sample code
 const sampleCode = `
-function transformEvent(events) {
-	return events;
+
+global.fetch = function(...args) {
+  // We use 'copyInto()' here so that on the other side we don't have to call 'copy()'. It
+  // doesn't make a difference who requests the copy, the result is the same.
+  // 'applyIgnored' calls 'log' asynchronously but doesn't return a promise-- it ignores the
+  // return value or thrown exception from 'log'.
+  log("Soem shit happening here.......");
+  return new Promise(resolve => {
+    fet.applyIgnored(undefined, [
+      new _ivm.Reference(resolve),
+      ...args.map(arg => new _ivm.ExternalCopy(arg).copyInto())
+    ]);
+  });
+};
+
+async function transformEvent(events) {
+  log("inside isolate transformEvent");
+  const fetchProm = fetch('https://jsonplaceholder.typicode.com/comments/1');
+  const result = await fetchProm;
+  log("Here see me!!!");
+  log("Result", result);
+	return {
+    result,
+    events
+  };
 }
 `;
 
@@ -58,6 +82,31 @@ async function userTransformHandlerV1(
   logger.info("isolate created");
   const isolate = new ivm.Isolate({ memoryLimit: 128 });
   const context = await isolate.createContext();
+
+  const jail = context.global;
+  jail.set("_ivm", ivm);
+  jail.setSync("global", jail.derefInto());
+  jail.setSync("log", function(...args) {
+    console.log(...args);
+  });
+  await jail.set(
+    "fet",
+    new ivm.Reference(async (resolve, ...args) => {
+      try {
+        const res = await fetch(...args);
+        const data = await res.json();
+        resolve.applyIgnored(undefined, [
+          new ivm.ExternalCopy(data).copyInto()
+        ]);
+      } catch (error) {
+        console.log("Inside Ref Err", error);
+        resolve.applyIgnored(undefined, [
+          new ivm.ExternalCopy("ERROR").copyInto()
+        ]);
+      }
+    })
+  );
+
   const script = await isolate.compileScript(sampleCode);
   await script.run(context);
 
@@ -70,14 +119,17 @@ async function userTransformHandlerV1(
   await customScriptModule.evaluate();
 
   // 2. run the code, and await the result
-  const fnReference = await context.global.getSync("transformEvent");
+  const fnReference = await context.global.get("transformEvent", {
+    promise: true,
+    reference: true
+  });
   // Initializing the external copy variable
   const eventExtCopy = new ivm.ExternalCopy(events);
   // Copying into isolate
   const sharedTransformationPayload = eventExtCopy.copyInto({
     transferIn: true
   });
-  const result = await fnReference.apply(undefined, [
+  const result = fnReference.applySync(undefined, [
     sharedTransformationPayload
   ]);
 

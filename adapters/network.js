@@ -205,6 +205,13 @@ const prepareProxyRequest = request => {
         ...headers,
         "Content-Type": "application/x-www-form-urlencoded"
       };
+      // This should not go into the fix
+      // This is to only use for comparison purposes
+      data = data.toString();
+      // Replace '*' from '%2A' as that is being done in Router
+      // Probably this change is not required in production ?
+      // Ref: https://bobbyhadz.com/blog/javascript-typeerror-replaceall-is-not-a-function#:~:text=The%20%22replaceAll%22%20is%20not%20a,on%20strings%20in%20supported%20browsers
+      data = data.replace(/\*/g, "%2A");
       break;
     case "MULTIPART-FORM":
       // TODO:

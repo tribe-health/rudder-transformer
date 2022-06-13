@@ -684,7 +684,9 @@ async function handleProxyTestRequest(destination, ctx) {
     // This is being done only for comparison purposes
     // We are sending the "string([]byte)" after applying certain changes according to the format from router
     // Hence we are stringifying the response we obtained after applying similar changes
-    proxyRequestPayload.data = JSON.stringify(proxyRequestPayload.data);
+    if (typeof proxyRequestPayload.data === "object") {
+      proxyRequestPayload.data = JSON.stringify(proxyRequestPayload.data);
+    }
 
     // Ignore the casing in header's keys' casing
     // From router we're getting lower-cased header keys

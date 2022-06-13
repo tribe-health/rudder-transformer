@@ -667,6 +667,7 @@ async function handleProxyRequest(destination, ctx) {
 }
 // Proxy Test endpoint handler
 async function handleProxyTestRequest(destination, ctx) {
+  // Here the signature may change according to the decision made regarding the approach
   const {
     RouterDeliveryPayload,
     ProxyRequestPayload: destinationRequest

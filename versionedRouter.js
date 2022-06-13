@@ -5,6 +5,8 @@ const _ = require("lodash");
 const fs = require("fs");
 const path = require("path");
 const { ConfigFactory, Executor } = require("rudder-transformer-cdk");
+const match = require("match-json");
+const jsonDiff = require("json-diff");
 const logger = require("./logger");
 const stats = require("./util/stats");
 
@@ -27,6 +29,7 @@ require("dotenv").config();
 const eventValidator = require("./util/eventValidation");
 const { prometheusRegistry } = require("./middleware");
 const { compileUserLibrary } = require("./util/ivmFactory");
+const { prepareProxyRequest } = require("./adapters/network");
 
 const CDK_DEST_PATH = "cdk";
 const basePath = path.resolve(__dirname, `./${CDK_DEST_PATH}`);
@@ -283,7 +286,7 @@ async function routerHandleDest(ctx) {
 if (startDestTransformer) {
   versions.forEach(version => {
     const destinations = getIntegrations(`${version}/destinations`);
-    destinations.push (...getIntegrations(CDK_DEST_PATH));
+    destinations.push(...getIntegrations(CDK_DEST_PATH));
     destinations.forEach(destination => {
       // eg. v0/destinations/ga
       router.post(`/${version}/destinations/${destination}`, async ctx => {
@@ -662,6 +665,92 @@ async function handleProxyRequest(destination, ctx) {
   ctx.status = isHttpStatusSuccess(response.status) ? 200 : response.status;
   return ctx.body;
 }
+// Proxy Test endpoint handler
+async function handleProxyTestRequest(destination, ctx) {
+  const {
+    RouterDeliveryPayload,
+    ProxyRequestPayload: destinationRequest
+  } = ctx.request.body;
+  // const destNetworkHandler = networkHandlerFactory.getNetworkHandler(
+  //   destination
+  // );
+  let response;
+  try {
+    // stats.counter("tf_proxy_dest_req_count", 1, {
+    //   destination
+    // });
+    // const startTime = new Date();
+    const proxyRequestPayload = prepareProxyRequest(destinationRequest);
+    // This is being done only for comparison purposes
+    proxyRequestPayload.data = JSON.stringify(proxyRequestPayload.data);
+
+    // Ignore the casing in header's keys' casing
+    const lowercaseHeaders = Object.keys(proxyRequestPayload.headers).reduce(
+      (c, k) => {
+        // eslint-disable-next-line no-param-reassign
+        c[k.toLowerCase().trim()] = proxyRequestPayload.headers[k];
+        return c;
+      },
+      {}
+    );
+    proxyRequestPayload.headers = lowercaseHeaders;
+
+    response = {
+      ProxyRequestPayload: proxyRequestPayload,
+      RouterDeliveryPayload
+    };
+
+    if (!match(RouterDeliveryPayload, proxyRequestPayload)) {
+      stats.counter("proxy_req_test_match_failure", 1, {
+        path: ctx.request.path,
+        method: ctx.request.method.toLowerCase()
+      });
+      logger.error(`API comparison: payload mismatch `);
+      // logger.error(`feature Url : ${url}`);
+      // logger.error(`current Url : ${ctx.request.url}`);
+      logger.error(`current Method : ${ctx.request.method}`);
+      logger.error(`current Body : ${JSON.stringify(ctx.request.body)}`);
+      logger.error(
+        `Proxy Request Payload: ${JSON.stringify(proxyRequestPayload)}`
+      );
+      logger.error(
+        `Router Delivery Payload: ${JSON.stringify(RouterDeliveryPayload)} `
+      );
+      const difference = jsonDiff.diffString(
+        RouterDeliveryPayload,
+        proxyRequestPayload
+      );
+      response = {
+        difference,
+        ...response
+      };
+      logger.error(`diff: ${difference}`);
+    } else {
+      stats.counter("proxy_req_test_match_success", 1, {
+        path: ctx.request.path,
+        method: ctx.request.method.toLowerCase()
+      });
+    }
+  } catch (err) {
+    logger.error("Error occurred while completing proxy request:");
+    logger.error(err);
+    response = generateErrorObject(
+      err,
+      destination,
+      TRANSFORMER_METRIC.TRANSFORMER_STAGE.RESPONSE_TRANSFORM
+    );
+    response = { ...response };
+    if (!err.responseTransformFailure) {
+      response.message = `[Error occurred while processing response for destination ${destination}]: ${err.message}`;
+    }
+    stats.counter("proxy_req_test_error", 1, {
+      destination
+    });
+  }
+  ctx.body = { output: response };
+  ctx.status = 200;
+  return ctx.body;
+}
 
 if (transformerProxy) {
   versions.forEach(version => {
@@ -677,6 +766,20 @@ if (transformerProxy) {
             destination,
             version
           });
+        }
+      );
+
+      // proxy Test endpoint
+      router.post(
+        `/${version}/destinations/${destination}/proxyTest`,
+        async ctx => {
+          // const startTime = new Date();
+          ctx.set("apiVersion", API_VERSION);
+          await handleProxyTestRequest(destination, ctx);
+          // stats.timing("transformer_total_proxy_latency", startTime, {
+          //   destination,
+          //   version
+          // });
         }
       );
     });

@@ -244,5 +244,6 @@ module.exports = {
   httpPOST,
   httpPUT,
   httpPATCH,
-  proxyRequest
+  proxyRequest,
+  prepareProxyRequest
 };

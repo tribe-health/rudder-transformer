@@ -682,9 +682,14 @@ async function handleProxyTestRequest(destination, ctx) {
     // const startTime = new Date();
     const proxyRequestPayload = prepareProxyRequest(destinationRequest);
     // This is being done only for comparison purposes
+    // We are sending the "string([]byte)" after applying certain changes according to the format from router
+    // Hence we are stringifying the response we obtained after applying similar changes
     proxyRequestPayload.data = JSON.stringify(proxyRequestPayload.data);
 
     // Ignore the casing in header's keys' casing
+    // From router we're getting lower-cased header keys
+    // Here even though we make the casing as lower-cased, there are some title-cased keys coming up
+    // To level the playing fields for comparison purposes, we're lower-casing the header keys
     const lowercaseHeaders = Object.keys(proxyRequestPayload.headers).reduce(
       (c, k) => {
         // eslint-disable-next-line no-param-reassign

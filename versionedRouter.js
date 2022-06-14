@@ -668,10 +668,7 @@ async function handleProxyRequest(destination, ctx) {
 // Proxy Test endpoint handler
 async function handleProxyTestRequest(destination, ctx) {
   // Here the signature may change according to the decision made regarding the approach
-  const {
-    RouterDeliveryPayload,
-    ProxyRequestPayload: destinationRequest
-  } = ctx.request.body;
+  const { deliveryPayload, destinationRequestPayload } = ctx.request.body;
   // const destNetworkHandler = networkHandlerFactory.getNetworkHandler(
   //   destination
   // );
@@ -681,11 +678,16 @@ async function handleProxyTestRequest(destination, ctx) {
     //   destination
     // });
     // const startTime = new Date();
-    const proxyRequestPayload = prepareProxyRequest(destinationRequest);
+    const proxyRequestPayload = prepareProxyRequest(destinationRequestPayload);
+
     // This is being done only for comparison purposes
     // We are sending the "string([]byte)" after applying certain changes according to the format from router
     // Hence we are stringifying the response we obtained after applying similar changes
-    if (typeof proxyRequestPayload.data === "object") {
+    // Even `null` is of type object in JS, we are skipping this as JSON.stringify(null) = 'null'
+    if (
+      proxyRequestPayload.data &&
+      typeof proxyRequestPayload.data === "object"
+    ) {
       proxyRequestPayload.data = JSON.stringify(proxyRequestPayload.data);
     }
 
@@ -704,11 +706,11 @@ async function handleProxyTestRequest(destination, ctx) {
     proxyRequestPayload.headers = lowercaseHeaders;
 
     response = {
-      ProxyRequestPayload: proxyRequestPayload,
-      RouterDeliveryPayload
+      proxyRequestPayload,
+      deliveryPayload
     };
 
-    if (!match(RouterDeliveryPayload, proxyRequestPayload)) {
+    if (!match(deliveryPayload, proxyRequestPayload)) {
       stats.counter("proxy_req_test_match_failure", 1, {
         path: ctx.request.path,
         method: ctx.request.method.toLowerCase()
@@ -722,10 +724,10 @@ async function handleProxyTestRequest(destination, ctx) {
         `Proxy Request Payload: ${JSON.stringify(proxyRequestPayload)}`
       );
       logger.error(
-        `Router Delivery Payload: ${JSON.stringify(RouterDeliveryPayload)} `
+        `Router Delivery Payload: ${JSON.stringify(deliveryPayload)} `
       );
       const difference = jsonDiff.diffString(
-        RouterDeliveryPayload,
+        deliveryPayload,
         proxyRequestPayload
       );
       response = {
@@ -734,6 +736,12 @@ async function handleProxyTestRequest(destination, ctx) {
       };
       logger.error(`diff: ${difference}`);
     } else {
+      logger.info(
+        `The formed payloads are matching: ${JSON.stringify({
+          path: ctx.request.path,
+          method: ctx.request.method.toLowerCase()
+        })}`
+      );
       stats.counter("proxy_req_test_match_success", 1, {
         path: ctx.request.path,
         method: ctx.request.method.toLowerCase()

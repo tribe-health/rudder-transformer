@@ -221,6 +221,12 @@ const prepareProxyRequest = request => {
   }
   // Ref: https://github.com/rudderlabs/rudder-server/blob/master/router/network.go#L164
   headers["User-Agent"] = "RudderLabs";
+  // This probably shouldn't be part of the fix
+  // when a parameter is set as `nil` or a value is not set in golang, it comes to js as `null`
+  // When params is set(data will be set as `nil`), data is not defined but from router we are sending null
+  if (data === undefined) {
+    data = null;
+  }
   return { endpoint, data, params, headers, method };
 };
 

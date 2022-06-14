@@ -668,6 +668,8 @@ async function handleProxyRequest(destination, ctx) {
 // Proxy Test endpoint handler
 async function handleProxyTestRequest(destination, ctx) {
   // Here the signature may change according to the decision made regarding the approach
+  // destinationRequestPayload = Router Delivered Payload
+  // deliveryPayload = Proxy Request Payload
   const { deliveryPayload, destinationRequestPayload } = ctx.request.body;
   // const destNetworkHandler = networkHandlerFactory.getNetworkHandler(
   //   destination
@@ -678,7 +680,7 @@ async function handleProxyTestRequest(destination, ctx) {
     //   destination
     // });
     // const startTime = new Date();
-    const proxyRequestPayload = prepareProxyRequest(destinationRequestPayload);
+    const proxyRequestPayload = prepareProxyRequest(deliveryPayload);
 
     // This is being done only for comparison purposes
     // We are sending the "string([]byte)" after applying certain changes according to the format from router
@@ -707,10 +709,10 @@ async function handleProxyTestRequest(destination, ctx) {
 
     response = {
       proxyRequestPayload,
-      deliveryPayload
+      destinationRequestPayload
     };
 
-    if (!match(deliveryPayload, proxyRequestPayload)) {
+    if (!match(destinationRequestPayload, proxyRequestPayload)) {
       stats.counter("proxy_req_test_match_failure", 1, {
         path: ctx.request.path,
         method: ctx.request.method.toLowerCase()
@@ -724,10 +726,10 @@ async function handleProxyTestRequest(destination, ctx) {
         `Proxy Request Payload: ${JSON.stringify(proxyRequestPayload)}`
       );
       logger.error(
-        `Router Delivery Payload: ${JSON.stringify(deliveryPayload)} `
+        `Router Delivery Payload: ${JSON.stringify(destinationRequestPayload)} `
       );
       const difference = jsonDiff.diffString(
-        deliveryPayload,
+        destinationRequestPayload,
         proxyRequestPayload
       );
       response = {
